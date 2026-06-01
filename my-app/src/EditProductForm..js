@@ -52,7 +52,7 @@ const EditProduct = () => {
     }
 
     try {
-      const response = await axios.put(
+      await axios.put(
         `https://salon-backend-api-production.up.railway.app/product/${id}`, // Correct URL format
         formData,
         {
