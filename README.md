@@ -1,5 +1,5 @@
 # Glowup-dashboard
-A modern React-based Admin Dashboard built with **React.js** for managing products, tracking orders, and handling e-commerce store operations efficiently
+A modern React-based Admin Dashboard built with **React.js** for managing products, tracking orders, and handling e-commerce store operations efficiently.
 
 
 ## 🚀 Features
