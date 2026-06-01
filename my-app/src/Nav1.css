@@ -1,0 +1,24 @@
+/* Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #BF3170; /* Your desired color */
+    color: white;
+}
+
+.navbar-links {
+    display: flex;
+}
+
+.navbar-link {
+    margin-left: 20px;
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+}
+
+.navbar-link:hover {
+    color: #FF5EA5; /* Hover color */
+}
