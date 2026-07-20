@@ -1,0 +1,190 @@
+/* Navbar.css */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(191, 49, 112, 0.95); /* Semi-transparent Brand Color */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(191, 49, 112, 0.15);
+    padding: 12px 24px;
+    transition: all 0.3s ease;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar-brand {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 1px;
+}
+
+.brand-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff9494;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 10px #ff9494;
+}
+
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 101;
+}
+
+.hamburger-line {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.navbar-link {
+    margin-left: 24px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.navbar-link:hover {
+    color: white;
+    border-bottom-color: #ff9494;
+}
+
+.navbar-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 6px 0;
+}
+
+.signup-highlight {
+    background-color: #ffffff;
+    color: #BF3170;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.signup-highlight:hover {
+    background-color: transparent;
+    color: #ffffff;
+    border-color: #ffffff;
+    border-bottom-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .navbar-toggle {
+        display: flex;
+    }
+
+    /* Burger Menu Active Animations */
+    .navbar-toggle.active .hamburger-line:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .navbar-toggle.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .navbar-toggle.active .hamburger-line:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .navbar-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(191, 49, 112, 0.98);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-menu.is-open {
+        max-height: 300px;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        width: 100%;
+        padding: 20px 0;
+    }
+
+    .navbar-link {
+        margin: 12px 0;
+        padding: 10px 0;
+        font-size: 1.1rem;
+        width: 100%;
+        text-align: center;
+        border-bottom: none;
+    }
+
+    .navbar-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-bottom-color: transparent;
+    }
+
+    .signup-highlight {
+        width: 80%;
+        margin: 12px auto;
+        border-radius: 8px;
+    }
+    
+    .signup-highlight:hover {
+        background-color: white;
+        color: #BF3170;
+        transform: none;
+    }
+}
+

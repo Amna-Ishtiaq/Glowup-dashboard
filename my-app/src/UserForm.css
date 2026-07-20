@@ -1,0 +1,135 @@
+/* UserForm.css - Shared styles for Signup and Login */
+.user-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+    padding: 20px;
+}
+
+.user-form {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(191, 49, 112, 0.08);
+    border: 1px solid rgba(191, 49, 112, 0.08);
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    transition: all 0.3s ease;
+}
+
+.user-form:hover {
+    box-shadow: 0 15px 35px rgba(191, 49, 112, 0.12);
+}
+
+.user-form h3 {
+    text-align: center;
+    color: #1e1e24;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.user-form h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #BF3170;
+    border-radius: 2px;
+}
+
+.user-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.user-form label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555555;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-form input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+    background-color: #fcfcfd;
+    transition: all 0.3s ease;
+}
+
+.user-form input:focus {
+    border-color: #BF3170;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(191, 49, 112, 0.15);
+}
+
+.user-form button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #BF3170 0%, #d83e80 100%);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(191, 49, 112, 0.25);
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.user-form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(191, 49, 112, 0.35);
+    background: linear-gradient(135deg, #d83e80 0%, #BF3170 100%);
+}
+
+.user-form button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* Auth redirects styled info link */
+.auth-redirect-text {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 20px;
+}
+
+.auth-redirect-text a {
+    color: #BF3170;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-redirect-text a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustment for forms */
+@media (max-width: 480px) {
+    .user-form {
+        padding: 30px 20px;
+        border-radius: 12px;
+    }
+    
+    .user-form h3 {
+        font-size: 1.5rem;
+        margin-bottom: 24px;
+    }
+}
