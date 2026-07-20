@@ -18,7 +18,7 @@ const Loginbody = () => {
         e.preventDefault();
         const user = { email, password };
 
-        let result = await fetch("http://localhost:4500/login", {
+        let result = await fetch("https://salon-backend-api-production.up.railway.app/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

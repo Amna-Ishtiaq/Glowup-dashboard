@@ -22,7 +22,7 @@ export const AddProduct = () => {
         formData.append('image', image); 
 
         try {
-            const result = await axios.post("http://localhost:4500/upload1", formData, {
+            const result = await axios.post("https://salon-backend-api-production.up.railway.app/upload1", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

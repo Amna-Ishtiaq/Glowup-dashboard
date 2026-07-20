@@ -11,7 +11,7 @@ export const ManageProduct = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:4500/product');
+                const response = await axios.get('https://salon-backend-api-production.up.railway.app/product');
                 setProducts(response.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -24,7 +24,7 @@ export const ManageProduct = () => {
     const deleteProduct = async (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
             try {
-                await axios.delete(`http://localhost:4500/product1/${id}`);
+                await axios.delete(`https://salon-backend-api-production.up.railway.app/product1/${id}`);
                 setProducts(products.filter(product => product._id !== id));
             } catch (error) {
                 console.error("Error deleting product:", error);

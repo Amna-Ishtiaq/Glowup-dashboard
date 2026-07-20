@@ -20,7 +20,7 @@ const EditProduct = () => {
     // Fetch the product details to prefill the form
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:4500/thing/${id}`);
+        const response = await axios.get(`https://salon-backend-api-production.up.railway.app/thing/${id}`);
         setProductData(response.data);
       } catch (err) {
         setError('Failed to load product details');
@@ -54,7 +54,7 @@ const EditProduct = () => {
 
     try {
       await axios.put(
-        `http://localhost:4500/product/${id}`,
+        `https://salon-backend-api-production.up.railway.app/product/${id}`,
         formData,
         {
           headers: {

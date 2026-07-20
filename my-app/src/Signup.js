@@ -19,7 +19,7 @@ const Signup = () => {
         e.preventDefault();
         const user = { name, email, password };
 
-        let result = await fetch("http://localhost:4500/signup", {
+        let result = await fetch("https://salon-backend-api-production.up.railway.app/signup", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -14,7 +14,7 @@ const CheckoutPage = () => {
             else setRefreshing(true);
             setError(null);
 
-            const response = await axios.get('http://localhost:4500/checkouts');
+            const response = await axios.get('https://salon-backend-api-production.up.railway.app/checkouts');
             setCheckouts(response.data.checkouts || []);
         } catch (err) {
             setError(err.response?.data?.error || err.message || 'Failed to load checkouts');
