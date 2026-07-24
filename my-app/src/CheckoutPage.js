@@ -7,6 +7,8 @@ const CheckoutPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
+    const [searchEmail, setSearchEmail] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
 
     const fetchCheckouts = async (showLoader = true) => {
         try {
@@ -16,6 +18,8 @@ const CheckoutPage = () => {
 
             const response = await axios.get('https://salon-backend-api-production.up.railway.app/checkouts');
             setCheckouts(response.data.checkouts || []);
+            setSearchEmail(''); // Clear search when fetching all
+            setIsSearching(false);
         } catch (err) {
             setError(err.response?.data?.error || err.message || 'Failed to load checkouts');
             console.error('Error fetching checkouts:', err);
@@ -23,6 +27,40 @@ const CheckoutPage = () => {
             setLoading(false);
             setRefreshing(false);
         }
+    };
+
+    const searchByEmail = async (e) => {
+        e.preventDefault();
+        
+        if (!searchEmail.trim()) {
+            // If search is empty, fetch all checkouts
+            fetchCheckouts(false);
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+            setIsSearching(true);
+
+            const response = await axios.get(`https://salon-backend-api-production.up.railway.app/checkouts/email/${encodeURIComponent(searchEmail.trim())}`);
+            setCheckouts(response.data.checkouts || []);
+            
+            if (response.data.checkouts.length === 0) {
+                setError(`No checkouts found for email: ${searchEmail}`);
+            }
+        } catch (err) {
+            setError(err.response?.data?.error || err.message || 'Failed to search checkouts');
+            console.error('Error searching checkouts:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const clearSearch = () => {
+        setSearchEmail('');
+        setIsSearching(false);
+        fetchCheckouts(false);
     };
 
     useEffect(() => {
@@ -59,7 +97,13 @@ const CheckoutPage = () => {
         const statusMap = {
             'completed': { label: 'Completed', class: 'status-completed' },
             'pending': { label: 'Pending', class: 'status-pending' },
-            'failed': { label: 'Failed', class: 'status-failed' }
+            'failed': { label: 'Failed', class: 'status-failed' },
+            'succeeded': { label: 'Succeeded', class: 'status-completed' },
+            'requires_payment_method': { label: 'Requires Payment', class: 'status-pending' },
+            'requires_confirmation': { label: 'Requires Confirmation', class: 'status-pending' },
+            'requires_action': { label: 'Requires Action', class: 'status-pending' },
+            'processing': { label: 'Processing', class: 'status-pending' },
+            'canceled': { label: 'Canceled', class: 'status-failed' }
         };
         const normalizedStatus = (status || 'pending').toLowerCase();
         return statusMap[normalizedStatus] || statusMap.pending;
@@ -68,9 +112,9 @@ const CheckoutPage = () => {
     // Calculate stats
     const totalAmount = checkouts.reduce((sum, item) => sum + (item.totalAmount || 0), 0);
     const completedCount = checkouts.filter(item =>
-        (item.paymentStatus || '').toLowerCase() === 'completed'
+        (item.paymentStatus || '').toLowerCase() === 'completed' || 
+        (item.paymentStatus || '').toLowerCase() === 'succeeded'
     ).length;
-    const infoChangedCount = checkouts.filter(item => item.customerInfoChanged).length;
 
     if (loading) {
         return (
@@ -84,14 +128,33 @@ const CheckoutPage = () => {
     return (
         <div className="checkout-page-container">
             <div className="checkout-header">
-                <h1>Checkouts</h1>
-                <button
-                    className="refresh-btn"
-                    onClick={() => fetchCheckouts(false)}
-                    disabled={refreshing}
-                >
-                    {refreshing ? 'Refreshing...' : '⟳ Refresh'}
-                </button>
+                <h1>Checkouts {isSearching && <span className="search-badge">🔍 Search Results</span>}</h1>
+                <div className="header-actions">
+                    <form onSubmit={searchByEmail} className="search-form">
+                        <input
+                            type="email"
+                            placeholder="Search by email..."
+                            value={searchEmail}
+                            onChange={(e) => setSearchEmail(e.target.value)}
+                            className="search-input"
+                        />
+                        <button type="submit" className="search-btn">
+                            🔍 Search
+                        </button>
+                        {isSearching && (
+                            <button type="button" onClick={clearSearch} className="clear-btn">
+                                ✕ Clear
+                            </button>
+                        )}
+                    </form>
+                    <button
+                        className="refresh-btn"
+                        onClick={() => fetchCheckouts(false)}
+                        disabled={refreshing}
+                    >
+                        {refreshing ? 'Refreshing...' : '⟳ Refresh'}
+                    </button>
+                </div>
             </div>
 
             {/* Stats Cards */}
@@ -108,15 +171,11 @@ const CheckoutPage = () => {
                     <div className="stat-label">Total Revenue</div>
                     <div className="stat-value stat-revenue">{formatCurrency(totalAmount)}</div>
                 </div>
-                <div className="stat-card">
-                    <div className="stat-label">Customer Info Changed</div>
-                    <div className="stat-value stat-changed">{infoChangedCount}</div>
-                </div>
             </div>
 
             {error && (
-                <div className="error-message">
-                    ⚠️ {error}
+                <div className={`error-message ${error.includes('No checkouts found') ? 'info-message' : ''}`}>
+                    {error.includes('No checkouts found') ? 'ℹ️' : '⚠️'} {error}
                 </div>
             )}
 
@@ -128,10 +187,10 @@ const CheckoutPage = () => {
                             <th>ID</th>
                             <th>Amount</th>
                             <th>Payment Intent</th>
+                            <th>Client Secret</th>
                             <th>Status</th>
-                            <th>Checkout Customer</th>
-                            <th>Latest Customer</th>
-                            <th>Info Changed</th>
+                            <th>Customer</th>
+                            <th>Cart Items</th>
                             <th>Created At</th>
                         </tr>
                     </thead>
@@ -140,9 +199,9 @@ const CheckoutPage = () => {
                             <tr>
                                 <td colSpan="8" style={{ textAlign: 'center', padding: '40px 0' }}>
                                     <div className="empty-state">
-                                        <p>No checkouts found</p>
+                                        <p>{isSearching ? 'No checkouts found for this email' : 'No checkouts found'}</p>
                                         <span style={{ color: '#a0aec0', fontSize: '0.9rem' }}>
-                                            Payments will appear here once processed
+                                            {isSearching ? 'Try a different email address' : 'Payments will appear here once processed'}
                                         </span>
                                     </div>
                                 </td>
@@ -150,15 +209,14 @@ const CheckoutPage = () => {
                         ) : (
                             checkouts.map((checkout, index) => {
                                 const status = getStatusBadge(checkout.paymentStatus);
-                                const checkoutCustomer = checkout.checkoutCustomer || {};
-                                const latestCustomer = checkout.latestCustomerInfo;
-                                const infoChanged = checkout.customerInfoChanged || false;
+                                const cart = Array.isArray(checkout.cart) ? checkout.cart : [];
 
                                 return (
-                                    <tr key={checkout.id || index}>
+                                    <tr key={checkout._id || checkout.id || index}>
                                         <td data-label="ID">
-                                            <span className="id-cell" title={checkout.id}>
-                                                {checkout.id ? checkout.id.slice(-8) : '—'}
+                                            <span className="id-cell" title={checkout._id || checkout.id}>
+                                                {checkout._id ? checkout._id.slice(-8) : 
+                                                 checkout.id ? checkout.id.slice(-8) : '—'}
                                             </span>
                                         </td>
                                         <td data-label="Amount">
@@ -169,32 +227,53 @@ const CheckoutPage = () => {
                                                 {checkout.paymentIntentId ? checkout.paymentIntentId.slice(-12) : '—'}
                                             </span>
                                         </td>
+                                        <td data-label="Client Secret">
+                                            <span className="client-secret" title={checkout.clientSecret || 'No secret'}>
+                                                {checkout.clientSecret ? checkout.clientSecret.slice(-8) : '—'}
+                                            </span>
+                                        </td>
                                         <td data-label="Status">
                                             <span className={`status-badge ${status.class}`}>
                                                 {status.label}
                                             </span>
                                         </td>
-                                        <td data-label="Checkout Customer">
+                                        <td data-label="Customer">
                                             <div className="customer-info">
-                                                <div className="customer-name">{checkoutCustomer.name || '—'}</div>
-                                                <div className="customer-email">{checkoutCustomer.email || '—'}</div>
+                                                <div className="customer-name">{checkout.customerName || '—'}</div>
+                                                <div className="customer-email">{checkout.customerEmail || '—'}</div>
                                             </div>
                                         </td>
-                                        <td data-label="Latest Customer">
-                                            {latestCustomer ? (
-                                                <div className="customer-info">
-                                                    <div className="customer-name">{latestCustomer.name || '—'}</div>
-                                                    <div className="customer-email">{latestCustomer.email || '—'}</div>
+                                        <td data-label="Cart Items">
+                                            {cart.length > 0 ? (
+                                                <div className="cart-cell">
+                                                    {cart.map((item, i) => {
+                                                        // Handle productId being null or an object
+                                                        let productName = null;
+                                                        let productPrice = null;
+                                                        
+                                                        if (item.productId && typeof item.productId === 'object') {
+                                                            // productId is an object with name and price
+                                                            productName = item.productId.name || `Product ${i + 1}`;
+                                                            productPrice = item.productId.price;
+                                                        } else if (item.productId === null) {
+                                                            productName = 'Product not available';
+                                                        } else if (typeof item.productId === 'string') {
+                                                            productName = `Product ID: ${item.productId.slice(-6)}`;
+                                                        }
+                                                        
+                                                        const quantity = item.quantity || 1;
+                                                        
+                                                        return (
+                                                            <div key={item._id || i} className="cart-item">
+                                                                {productName}
+                                                                {quantity > 1 ? ` x${quantity}` : ''}
+                                                                {productPrice ? ` — $${parseFloat(productPrice).toFixed(2)}` : ''}
+                                                            </div>
+                                                        );
+                                                    })}
                                                 </div>
                                             ) : (
-                                                <span className="no-customer">No customer reference</span>
-                                            )}
-                                        </td>
-                                        <td data-label="Info Changed">
-                                            {infoChanged ? (
-                                                <span className="changed-badge changed-yes">✓ Changed</span>
-                                            ) : (
-                                                <span className="changed-badge changed-no">— No change</span>
+                                                <span className="no-cart">—</span>
                                             )}
                                         </td>
                                         <td data-label="Created At">
