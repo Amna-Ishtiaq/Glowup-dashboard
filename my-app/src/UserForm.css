@@ -1,135 +1,537 @@
-/* UserForm.css - Shared styles for Signup and Login */
-.user-form-container {
+/* UserForm.css - Professional & Aesthetic Styles for Signup and Login */
+
+/* Base Container */
+.user-form-container,
+.login-container,
+.signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 100px);
+    min-height: 100vh;
     padding: 20px;
+    background: linear-gradient(135deg, #fdf2f8 0%, #fce4ec 50%, #fdf2f8 100%);
+    position: relative;
+    overflow: hidden;
 }
 
+/* Decorative Background Elements */
+.login-container::before,
+.signup-container::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(191, 49, 112, 0.05) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.login-container::after,
+.signup-container::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(191, 49, 112, 0.04) 0%, transparent 70%);
+    bottom: -80px;
+    left: -80px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Card Styles */
+.login-card,
+.signup-card,
 .user-form {
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(191, 49, 112, 0.08);
-    border: 1px solid rgba(191, 49, 112, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    box-shadow: 
+        0 20px 60px rgba(191, 49, 112, 0.1),
+        0 8px 20px rgba(191, 49, 112, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
     width: 100%;
-    max-width: 420px;
-    padding: 40px;
-    transition: all 0.3s ease;
+    max-width: 440px;
+    padding: 48px 40px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(191, 49, 112, 0.06);
 }
 
+.login-card:hover,
+.signup-card:hover,
 .user-form:hover {
-    box-shadow: 0 15px 35px rgba(191, 49, 112, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 
+        0 24px 80px rgba(191, 49, 112, 0.15),
+        0 10px 24px rgba(191, 49, 112, 0.08);
 }
 
+/* Header Section */
+.login-card h2,
+.signup-card h2,
 .user-form h3 {
     text-align: center;
     color: #1e1e24;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
     position: relative;
-    padding-bottom: 12px;
 }
 
-.user-form h3::after {
+.login-card .subtitle,
+.signup-card .subtitle {
+    text-align: center;
+    color: #7a7a8a;
+    font-size: 0.95rem;
+    margin-bottom: 32px;
+    font-weight: 400;
+}
+
+/* Decorative Header Line */
+.login-card h2::after,
+.signup-card h2::after {
     content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    display: block;
     width: 50px;
     height: 3px;
-    background-color: #BF3170;
-    border-radius: 2px;
+    background: linear-gradient(90deg, #BF3170, #d83e80);
+    margin: 12px auto 0;
+    border-radius: 4px;
 }
 
-.user-form form {
+/* Form Elements */
+.user-form form,
+.login-card form,
+.signup-card form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
 }
 
-.user-form label {
-    display: block;
-    font-size: 0.9rem;
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #555555;
-    margin-bottom: 8px;
+    color: #2d2d3a;
+    letter-spacing: 0.3px;
     text-transform: uppercase;
+    font-size: 0.75rem;
     letter-spacing: 0.5px;
+    opacity: 0.8;
 }
 
-.user-form input {
+.form-input,
+.user-form input,
+.login-card input,
+.signup-card input {
     width: 100%;
-    padding: 12px 16px;
+    padding: 14px 16px;
     font-size: 1rem;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 10px;
+    border: 2px solid #e8e8ed;
+    border-radius: 12px;
     outline: none;
     font-family: inherit;
-    background-color: #fcfcfd;
+    background: #f8f8fc;
     transition: all 0.3s ease;
+    color: #1e1e24;
 }
 
-.user-form input:focus {
+.form-input:focus,
+.user-form input:focus,
+.login-card input:focus,
+.signup-card input:focus {
     border-color: #BF3170;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(191, 49, 112, 0.15);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(191, 49, 112, 0.08);
+    transform: translateY(-1px);
 }
 
-.user-form button[type="submit"] {
+.form-input::placeholder,
+.user-form input::placeholder,
+.login-card input::placeholder,
+.signup-card input::placeholder {
+    color: #b0b0c0;
+    font-size: 0.95rem;
+}
+
+.form-input:disabled,
+.user-form input:disabled,
+.login-card input:disabled,
+.signup-card input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Button Styles */
+.btn-primary,
+.user-form button[type="submit"],
+.login-card button[type="submit"],
+.signup-card button[type="submit"] {
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     background: linear-gradient(135deg, #BF3170 0%, #d83e80 100%);
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     color: white;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(191, 49, 112, 0.25);
     transition: all 0.3s ease;
-    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+    margin-top: 8px;
 }
 
-.user-form button[type="submit"]:hover {
+.btn-primary::before,
+.user-form button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-primary:hover:not(:disabled),
+.user-form button[type="submit"]:hover:not(:disabled),
+.login-card button[type="submit"]:hover:not(:disabled),
+.signup-card button[type="submit"]:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(191, 49, 112, 0.35);
+    box-shadow: 0 8px 25px rgba(191, 49, 112, 0.35);
     background: linear-gradient(135deg, #d83e80 0%, #BF3170 100%);
 }
 
-.user-form button[type="submit"]:active {
+.btn-primary:hover::before,
+.user-form button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+.btn-primary:active:not(:disabled),
+.user-form button[type="submit"]:active:not(:disabled) {
     transform: translateY(0);
 }
 
-/* Auth redirects styled info link */
-.auth-redirect-text {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 20px;
+.btn-primary:disabled,
+.user-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
+/* Secondary Button */
+.btn-secondary {
+    padding: 12px 24px;
+    background: transparent;
+    border: 2px solid #BF3170;
+    border-radius: 12px;
+    color: #BF3170;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 12px;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #BF3170;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(191, 49, 112, 0.2);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-link {
+    background: transparent;
+    border: none;
+    color: #7a7a8a;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    transition: all 0.3s ease;
+    padding: 8px;
+    margin-top: 8px;
+}
+
+.btn-link:hover {
+    color: #BF3170;
+}
+
+/* Alert Messages */
+.alert {
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideDown 0.4s ease;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.alert-error {
+    background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.alert-success::before {
+    content: '✅';
+    font-size: 1.2rem;
+}
+
+.alert-error::before {
+    content: '⚠️';
+    font-size: 1.2rem;
+}
+
+/* Verification Section */
+.verification-section {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.verification-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+    display: block;
+    animation: pulse 2s infinite;
+}
+
+.verification-section h3 {
+    color: #1e1e24;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.verification-section p {
+    color: #5a5a6a;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.verification-hint {
+    font-size: 0.9rem;
+    color: #8a8a9a;
+    margin-bottom: 24px;
+}
+
+/* Auth Links */
+.signup-link,
+.login-link,
+.auth-redirect-text {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #5a5a6a;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f4;
+}
+
+.signup-link a,
+.login-link a,
 .auth-redirect-text a {
     color: #BF3170;
     text-decoration: none;
     font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
+.signup-link a::after,
+.login-link a::after,
+.auth-redirect-text a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #BF3170, #d83e80);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.signup-link a:hover::after,
+.login-link a:hover::after,
+.auth-redirect-text a:hover::after {
+    transform: scaleX(1);
+}
+
+.signup-link a:hover,
+.login-link a:hover,
 .auth-redirect-text a:hover {
-    text-decoration: underline;
+    color: #d83e80;
 }
 
-/* Responsive adjustment for forms */
-@media (max-width: 480px) {
-    .user-form {
-        padding: 30px 20px;
-        border-radius: 12px;
+/* Resend Button inside Alert */
+.btn-verify {
+    background: transparent !important;
+    border: 2px solid currentColor !important;
+    padding: 8px 16px !important;
+    cursor: pointer !important;
+    border-radius: 8px !important;
+    color: #c62828 !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    font-size: 0.85rem !important;
+}
+
+.btn-verify:hover:not(:disabled) {
+    background: #c62828 !important;
+    color: white !important;
+    transform: translateY(-1px);
+}
+
+.btn-verify:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
     }
-    
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .login-card,
+    .signup-card,
+    .user-form {
+        padding: 32px 24px;
+        border-radius: 20px;
+        max-width: 100%;
+    }
+
+    .login-card h2,
+    .signup-card h2,
     .user-form h3 {
-        font-size: 1.5rem;
-        margin-bottom: 24px;
+        font-size: 1.6rem;
+    }
+
+    .form-input,
+    .user-form input,
+    .login-card input,
+    .signup-card input {
+        padding: 12px 14px;
+        font-size: 0.95rem;
+    }
+
+    .btn-primary,
+    .user-form button[type="submit"],
+    .login-card button[type="submit"],
+    .signup-card button[type="submit"] {
+        padding: 14px;
+        font-size: 0.95rem;
+    }
+
+    .login-container::before,
+    .signup-container::before {
+        width: 200px;
+        height: 200px;
+        top: -50px;
+        right: -50px;
+    }
+
+    .login-container::after,
+    .signup-container::after {
+        width: 150px;
+        height: 150px;
+        bottom: -40px;
+        left: -40px;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f8f8fc;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #BF3170, #d83e80);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d83e80;
+}
+
+/* Additional Polish for Better UX */
+.form-group:focus-within label {
+    color: #BF3170;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px #f8f8fc inset !important;
+    -webkit-text-fill-color: #1e1e24 !important;
+}
+
+/* Smooth Loading States */
+.btn-primary.loading,
+.user-form button[type="submit"].loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-primary.loading::after,
+.user-form button[type="submit"].loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }
